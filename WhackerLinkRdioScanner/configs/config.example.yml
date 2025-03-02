@@ -1,3 +1,10 @@
+# Rdio Scanner System ID
+systemId: 1
+# Rdio Scanner API Key
+apiKey: 1
+# Rdio Scanner End Point
+endPoint: http://localhost:3000
+
 # Master connection information
 master:
     # Address of the master

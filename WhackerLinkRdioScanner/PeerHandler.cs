@@ -48,7 +48,7 @@ namespace WhackerLinkRdioScanner
         public PeerHandler(string address, int port)
         {
             peer = new Peer();
-            rdioScanner = new RdioScannerClient("1", "http://localhost:3000");
+            rdioScanner = new RdioScannerClient(Program.config.ApiKey, Program.config.EndPoint);
 
             peer.OnOpen += OnOpen;
             peer.OnClose += OnClose;
@@ -167,7 +167,7 @@ namespace WhackerLinkRdioScanner
 
             Log.Logger.Information($"Call ended. Sending to API: {filePath}");
 
-            bool success = await rdioScanner.SendCall(dstId, srcId, filePath);
+            bool success = await rdioScanner.SendCall(dstId, srcId, filePath, Program.config.SystemId);
 
             if (success)
                 Log.Logger.Information($"Call {filePath} uploaded successfully.");

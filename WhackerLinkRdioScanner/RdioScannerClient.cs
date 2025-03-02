@@ -56,7 +56,7 @@ namespace WhackerLinkRdioScanner
         /// <param name="systemId"></param>
         /// <param name="systemLabel"></param>
         /// <returns></returns>
-        public async Task<bool> SendCall(string talkgroup, string source, string audioFilePath, string systemId = "1", string systemLabel = "WLINK")
+        public async Task<bool> SendCall(string talkgroup, string source, string audioFilePath, string systemId = "1", string systemLabel = "")
         {
             try
             {

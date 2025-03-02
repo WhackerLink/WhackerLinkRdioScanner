@@ -27,6 +27,9 @@ namespace WhackerLinkRdioScanner
     {
         public MasterConfig Master { get; set; }
         public List<string> Talkgroups { get; set; }
+        public string SystemId { get; set; }
+        public string ApiKey { get; set; }
+        public string EndPoint { get; set; }
     }
 
     /// <summary>
