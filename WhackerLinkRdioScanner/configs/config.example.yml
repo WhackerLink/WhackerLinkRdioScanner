@@ -1,0 +1,16 @@
+# Master connection information
+master:
+    # Address of the master
+    address: 127.0.0.1
+    # Port of the master
+    port: 3000
+    # Radio Id
+      # Used to send a fake affiliation to tell the master to route us audio
+    radioId: 127600
+
+# List of talkgroups to receive
+talkgroups:
+    - 2001
+    - 2002
+    - 1001
+    - 1002
