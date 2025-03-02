@@ -56,7 +56,7 @@ namespace WhackerLinkRdioScanner
         /// <param name="systemId"></param>
         /// <param name="systemLabel"></param>
         /// <returns></returns>
-        public async Task<bool> SendCall(string talkgroup, string source, string audioFilePath, string systemId = "1", string systemLabel = "")
+        public async Task<bool> SendCall(string talkgroup, string source, string audioFilePath, string systemId = "1", string freq = "", string systemLabel = "")
         {
             try
             {
@@ -64,6 +64,8 @@ namespace WhackerLinkRdioScanner
                 using var fileStream = new ByteArrayContent(await System.IO.File.ReadAllBytesAsync(audioFilePath));
 
                 fileStream.Headers.ContentType = MediaTypeHeaderValue.Parse("audio/x-wav");
+
+                string frequencyHz = string.IsNullOrWhiteSpace(freq) ? "" : (double.Parse(freq) * 1_000_000).ToString();
 
                 formData.Add(fileStream, "audio", audioFilePath);
                 formData.Add(new StringContent(System.IO.Path.GetFileName(audioFilePath)), "audioName");
@@ -74,6 +76,7 @@ namespace WhackerLinkRdioScanner
                 formData.Add(new StringContent(source), "source");
                 formData.Add(new StringContent(systemId), "system");
                 formData.Add(new StringContent(systemLabel), "systemLabel");
+                formData.Add(new StringContent(frequencyHz), "frequency");
 
                 var response = await _httpClient.PostAsync($"{_endpoint}/api/call-upload", formData);
                 response.EnsureSuccessStatusCode();

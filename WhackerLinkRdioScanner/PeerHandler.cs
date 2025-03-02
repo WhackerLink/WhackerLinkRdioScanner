@@ -119,7 +119,7 @@ namespace WhackerLinkRdioScanner
             if (activeCalls.ContainsKey(callKey))
             {
                 Log.Logger.Information($"Call ended for srcId: {srcId}, dstId: {dstId}, channel: {frequency}");
-                Task.Run(() => FinalizeCall(callKey, srcId, dstId));
+                Task.Run(() => FinalizeCall(callKey, srcId, dstId, frequency));
             }
             else
             {
@@ -157,7 +157,7 @@ namespace WhackerLinkRdioScanner
         /// <param name="srcId"></param>
         /// <param name="dstId"></param>
         /// <returns></returns>
-        private async Task FinalizeCall(string callKey, string srcId, string dstId)
+        private async Task FinalizeCall(string callKey, string srcId, string dstId, string freq)
         {
             if (!activeCalls.ContainsKey(callKey))
                 return;
@@ -167,7 +167,7 @@ namespace WhackerLinkRdioScanner
 
             Log.Logger.Information($"Call ended. Sending to API: {filePath}");
 
-            bool success = await rdioScanner.SendCall(dstId, srcId, filePath, Program.config.SystemId);
+            bool success = await rdioScanner.SendCall(dstId, srcId, filePath, Program.config.SystemId, freq);
 
             if (success)
                 Log.Logger.Information($"Call {filePath} uploaded successfully.");
