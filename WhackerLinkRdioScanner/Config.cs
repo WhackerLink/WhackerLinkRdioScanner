@@ -40,6 +40,7 @@ namespace WhackerLinkRdioScanner
         public bool Enabled { get; set; } = true;
         public string Address { get; set; }
         public string RadioId { get; set; }
+        public string AuthKey { get; set; }
         public int Port { get; set; }
     }
 }

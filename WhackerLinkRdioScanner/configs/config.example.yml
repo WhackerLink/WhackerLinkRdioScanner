@@ -11,6 +11,8 @@ master:
     address: 127.0.0.1
     # Port of the master
     port: 3000
+    # Auth key
+    authKey: "UNAUTH"
     # Radio Id
       # Used to send a fake affiliation to tell the master to route us audio
     radioId: 127600

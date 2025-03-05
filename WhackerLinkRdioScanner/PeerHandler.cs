@@ -38,6 +38,7 @@ namespace WhackerLinkRdioScanner
         private RdioScannerClient rdioScanner;
 
         private string address;
+        private string authKey;
         private int port;
 
         private Dictionary<string, List<byte>> activeCalls = new();
@@ -45,7 +46,7 @@ namespace WhackerLinkRdioScanner
         /// <summary>
         /// Creates an instance of <see cref="PeerHandler"/>
         /// </summary>
-        public PeerHandler(string address, int port)
+        public PeerHandler(string address, int port, string authKey = "UNAUTH")
         {
             peer = new Peer();
             rdioScanner = new RdioScannerClient(Program.config.ApiKey, Program.config.EndPoint);
@@ -58,6 +59,7 @@ namespace WhackerLinkRdioScanner
 
             this.address = address;
             this.port = port;
+            this.authKey = authKey;
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace WhackerLinkRdioScanner
         /// </summary>
         public void Start()
         {
-            peer.Connect(address, port);
+            peer.Connect(address, port, authKey);
         }
 
         /// <summary>

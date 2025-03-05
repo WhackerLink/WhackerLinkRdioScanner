@@ -72,7 +72,7 @@ namespace WhackerLinkRdioScanner
 
                 Logger.Information("Initializing Peer");
 
-                PeerHandler handler = new PeerHandler(config.Master.Address, config.Master.Port);
+                PeerHandler handler = new PeerHandler(config.Master.Address, config.Master.Port, config.Master.AuthKey);
 
                 try
                 {
