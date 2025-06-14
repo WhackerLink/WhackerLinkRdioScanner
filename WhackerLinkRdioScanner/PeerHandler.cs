@@ -19,8 +19,6 @@
 */
 
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Serilog;
 using WhackerLinkLib.Interfaces;
 using WhackerLinkLib.Models;
@@ -48,7 +46,7 @@ namespace WhackerLinkRdioScanner
         /// </summary>
         public PeerHandler(string address, int port, string authKey = "UNAUTH")
         {
-            peer = new Peer();
+            peer = new Peer(Program.config.ConvPeerMode);
             rdioScanner = new RdioScannerClient(Program.config.ApiKey, Program.config.EndPoint);
 
             peer.OnOpen += OnOpen;
@@ -77,16 +75,19 @@ namespace WhackerLinkRdioScanner
         {
             Log.Logger.Information("Connection to master succesful");
 
-            // send fake aff's
-            foreach (string talkgroup in Program.config.Talkgroups)
+            if (!Program.config.ConvPeerMode)
             {
-                GRP_AFF_REQ affReq = new GRP_AFF_REQ
+                // send fake aff's
+                foreach (string talkgroup in Program.config.Talkgroups)
                 {
-                    SrcId = Program.config.Master.RadioId,
-                    DstId = talkgroup
-                };
+                    GRP_AFF_REQ affReq = new GRP_AFF_REQ
+                    {
+                        SrcId = Program.config.Master.RadioId,
+                        DstId = talkgroup
+                    };
 
-                peer.SendMessage(affReq.GetData());
+                    peer.SendMessage(affReq.GetData());
+                }
             }
         }
 
@@ -167,12 +168,22 @@ namespace WhackerLinkRdioScanner
             string filePath = $"call_{callKey}_{DateTime.UtcNow:yyyyMMddHHmmss}.wav";
             WriteWavFile(filePath, activeCalls[callKey]);
 
-            Log.Logger.Information($"Call ended. Sending to API: {filePath}");
+            // Log.Logger.Information($"Call ended. Sending to API: {filePath}");
 
             bool success = await rdioScanner.SendCall(dstId, srcId, filePath, Program.config.SystemId, freq);
 
             if (success)
+            {
                 Log.Logger.Information($"Call {filePath} uploaded successfully.");
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Error("err file failed to delete? " + ex);
+                }
+            }
             else
                 Log.Logger.Error($"Call {filePath} failed to upload.");
 

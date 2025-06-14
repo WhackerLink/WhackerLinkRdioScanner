@@ -13,9 +13,12 @@ master:
     port: 3000
     # Auth key
     authKey: "UNAUTH"
-    # Radio Id
-      # Used to send a fake affiliation to tell the master to route us audio
+    # Radio Id used to send a fake affiliation to tell the master to route us audio
     radioId: 127600
+    # Register as a conventional peer to the master to skip the need for affiliations. (NOTE: This tells the master to route everything to us)
+    convPeerMode: false
+    # Delete audio files when done with them
+    deleteDoneFiles: true
 
 # List of talkgroups to receive
 talkgroups:

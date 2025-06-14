@@ -30,6 +30,8 @@ namespace WhackerLinkRdioScanner
         public string SystemId { get; set; }
         public string ApiKey { get; set; }
         public string EndPoint { get; set; }
+        public bool ConvPeerMode { get; set; } = false;
+        public bool DeleteDoneFiles { get; set; } = true;
     }
 
     /// <summary>
